@@ -1,9 +1,10 @@
 from flask import Flask, render_template
+import pandas as pd
 
 # Create a website object:
 app = Flask(__name__)
 
-
+# df = pd.read_csv()
 # Refer to the app variable. Use route() that belongs to the app object:
 @app.route("/")
 def home():
@@ -12,8 +13,9 @@ def home():
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
-    # df = pandas.read_scv("")
-    temperature = 23  # df.station(data)
+    filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+    df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
+    temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
     return {
         "station": station,
         "date": date,
@@ -23,3 +25,5 @@ def about(station, date):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
