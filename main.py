@@ -4,11 +4,11 @@ import pandas as pd
 # Create a website object:
 app = Flask(__name__)
 
-# df = pd.read_csv()
-# Refer to the app variable. Use route() that belongs to the app object:
-
+# For 100 sample stations, use "data_small/stations.txt".
+# For all of nearly 26,000 stations, use "data/stations.txt".
 stations = pd.read_csv("data_small/stations.txt", skiprows=17)
 stations = stations[['STAID', 'STANAME                                 ']]
+
 
 @app.route("/")
 def home():
@@ -33,8 +33,6 @@ def alldata(station):
     df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
     result = df.to_dict(orient="records")
     return result
-
-    # render_template("all_station_data.html", data=df.to_html())
 
 
 @app.route("/api/v1/yearly/<station>/<year>")
